@@ -1,13 +1,14 @@
 import AppLayout from "../components/AppLayout";
 import Head from "next/head";
+import React from "react";
 
-const Home = () => (
+const Profile = () => (
   <AppLayout>
     <Head>
       <title>NodeBird</title>
     </Head>
-    <div>Hello, Next!</div>
+    <div>내 프로필</div>
   </AppLayout>
 );
 
-export default Home;
+export default Profile;
