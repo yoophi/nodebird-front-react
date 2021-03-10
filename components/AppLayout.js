@@ -10,12 +10,12 @@ const AppLayout = ({ children }) => {
       <Menu mode="horizontal">
         <Menu.Item key="home">
           <Link href="/">
-            <a>노드버드</a>
+            <a>NodeBird</a>
           </Link>
         </Menu.Item>
         <Menu.Item key="profile">
           <Link href="/profile">
-            <a>프로필</a>
+            <a>Profile</a>
           </Link>
         </Menu.Item>
         <Menu.Item key="mail">
@@ -24,7 +24,7 @@ const AppLayout = ({ children }) => {
       </Menu>
       <Link href="/signup">
         <a>
-          <Button>회원가입</Button>
+          <Button>Join</Button>
         </a>
       </Link>
       {children}

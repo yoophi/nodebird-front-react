@@ -18,12 +18,14 @@ const dummy = {
 
 const PostForm = () => {
   const imageInput = useRef();
+
   const onClickImageUpload = useCallback(() => {
     imageInput.current.click();
   }, [imageInput.current]);
+
   return (
     <Form style={{ margin: "10px 0 20px" }} encType="multipart/form-data">
-      <Input.TextArea maxLength={140} placeholder="What's up?"></Input.TextArea>
+      <Input.TextArea maxLength={140} placeholder="What's up?" />
       <div>
         <input type="file" multiple hidden ref={imageInput} />
         <Button onClick={onClickImageUpload}>Image Upload</Button>

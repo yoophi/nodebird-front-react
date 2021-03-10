@@ -7,7 +7,7 @@ const Profile = () => (
     <Head>
       <title>NodeBird</title>
     </Head>
-    <div>내 프로필</div>
+    <div>My Profile</div>
   </AppLayout>
 );
 

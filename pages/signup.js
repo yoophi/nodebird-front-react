@@ -51,12 +51,12 @@ const Signup = () => {
       <AppLayout>
         <Form onFinish={onSubmit} style={{ padding: 10 }}>
           <div>
-            <label htmlFor="user-id">아이디</label>
+            <label htmlFor="user-id">Username</label>
             <br />
             <Input name="user-id" value={id} required onChange={onChangeId} />
           </div>
           <div>
-            <label htmlFor="user-nick">닉네임</label>
+            <label htmlFor="user-nick">Nickname</label>
             <br />
             <Input
               name="user-nick"
@@ -66,7 +66,7 @@ const Signup = () => {
             />
           </div>
           <div>
-            <label htmlFor="user-password">비밀번호</label>
+            <label htmlFor="user-password">Password</label>
             <br />
             <Input
               name="user-password"
@@ -77,7 +77,7 @@ const Signup = () => {
             />
           </div>
           <div>
-            <label htmlFor="user-password-check">비밀번호체크</label>
+            <label htmlFor="user-password-check">Password check</label>
             <br />
             <Input
               name="user-password-check"
@@ -92,15 +92,17 @@ const Signup = () => {
           </div>
           <div>
             <Checkbox name="user-term" checked={term} onChange={onChangeTerm}>
-              회원가입 약관에 동의합니다.
+              I agree to the terms and conditions.
             </Checkbox>
             {termError && (
-              <div style={{ color: "red" }}>약관에 동의하셔야 합니다.</div>
+              <div style={{ color: "red" }}>
+                You must agree to the terms and conditions.
+              </div>
             )}
           </div>
           <div style={{ marginTop: 10 }}>
             <Button type="primary" htmlType="submit">
-              가입하기
+              Join
             </Button>
           </div>
         </Form>
