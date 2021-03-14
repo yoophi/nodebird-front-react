@@ -2,6 +2,7 @@ import "antd/dist/antd.css";
 
 import Head from "next/head";
 import PropTypes from "prop-types";
+import wrapper from "../store/configureStore";
 
 function MyApp({ Component, pageProps }) {
   return (
@@ -18,4 +19,4 @@ MyApp.propTypes = {
   Component: PropTypes.elementType.isRequired,
 };
 
-export default MyApp;
+export default wrapper.withRedux(MyApp);
