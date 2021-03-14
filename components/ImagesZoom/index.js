@@ -1,10 +1,11 @@
 import {
-  Global,
+  Overlay,
   Header,
+  CloseBtn,
+  SlickWrapper,
   ImgWrapper,
   Indicator,
-  Overlay,
-  SlickWrapper,
+  Global,
 } from "./styles";
 import React, { useState } from "react";
 
@@ -18,6 +19,7 @@ const ImagesZoom = ({ images, onClose }) => {
       <Global />
       <Header>
         <h1>Detail Images</h1>
+        <CloseBtn onclick={onClose} />
       </Header>
       <SlickWrapper>
         <div>

@@ -15,21 +15,7 @@ import PostCardContent from "./PostCardContent";
 import PostImages from "./PostImages";
 import PropTypes from "prop-types";
 import styled from "styled-components";
-
-const dummyComments = [
-  {
-    User: {
-      nickname: "John",
-    },
-    content: "This is a sample comment.",
-  },
-  {
-    User: {
-      nickname: "Jane",
-    },
-    content: "This is an another comment.",
-  },
-];
+import { useSelector } from "react-redux";
 
 const CardWrapper = styled.div`
   margin-bottom: 20px;
@@ -37,6 +23,8 @@ const CardWrapper = styled.div`
 
 const PostCard = ({ post }) => {
   const [commentFormOpened, setCommentFormOpened] = useState(false);
+  const id = useSelector((state) => state.user.me && state.user.me.id);
+
   const [liked, setLiked] = useState(false);
 
   const onToggleLike = useCallback(() => {
@@ -67,9 +55,14 @@ const PostCard = ({ post }) => {
             key="ellipsis"
             content={
               <Button.Group>
-                <Button>Report abuse</Button>
-                <Button>Edit</Button>
-                <Button danger>Remove</Button>
+                {id && post.User.id === id ? (
+                  <>
+                    <Button>Edit</Button>
+                    <Button danger>Remove</Button>
+                  </>
+                ) : (
+                  <Button>Report abuse</Button>
+                )}
               </Button.Group>
             }
           >
@@ -121,12 +114,8 @@ PostCard.propTypes = {
     id: PropTypes.number,
     User: PropTypes.object,
     content: PropTypes.string,
-    Images: PropTypes.arrayOf(
-      PropTypes.shape({
-        src: PropTypes.string,
-      })
-    ),
     createdAt: PropTypes.object,
+    Images: PropTypes.arrayOf(PropTypes.any),
   }),
 };
 
