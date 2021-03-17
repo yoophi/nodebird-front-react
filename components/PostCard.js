@@ -81,9 +81,9 @@ const PostCard = ({ post }) => {
         <>
           <CommentForm post={post} />
           <List
-            header={`${dummyComments.length} 댓글`}
+            header={`${post.Comments.length} 댓글`}
             itemLayout="horizontal"
-            dataSource={dummyComments}
+            dataSource={post.Comments}
             renderItem={(item) => (
               <li>
                 <Comment
@@ -115,6 +115,7 @@ PostCard.propTypes = {
     User: PropTypes.object,
     content: PropTypes.string,
     createdAt: PropTypes.object,
+    Comments: PropTypes.arrayOf(PropTypes.any),
     Images: PropTypes.arrayOf(PropTypes.any),
   }),
 };
