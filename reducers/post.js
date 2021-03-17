@@ -1,3 +1,4 @@
+import shortId from "shortid";
 export const initialState = {
   mainPosts: [
     {
@@ -40,19 +41,24 @@ export const initialState = {
 
 const ADD_POST = "ADD_POST";
 
-export const addPost = {
-  type: ADD_POST,
+export const addPost = (data) => {
+  return {
+    type: ADD_POST,
+    data,
+  };
 };
 
-const dummyPost = {
-  id: 2,
-  content: "Sample Data",
-  User: {
-    id: 1,
-    nickname: "Jane Doe",
-  },
-  Images: [],
-  Comments: [],
+const dummyPost = (data) => {
+  return {
+    id: shortId.generate(),
+    content: data.text,
+    User: {
+      id: 1,
+      nickname: "Jane Doe",
+    },
+    Images: [],
+    Comments: [],
+  };
 };
 
 export default (state = initialState, action) => {
@@ -60,7 +66,7 @@ export default (state = initialState, action) => {
     case ADD_POST: {
       return {
         ...state,
-        mainPosts: [dummyPost, ...state.mainPosts],
+        mainPosts: [dummyPost(action.data), ...state.mainPosts],
         postAdded: true,
       };
     }

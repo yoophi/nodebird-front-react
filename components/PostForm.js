@@ -1,5 +1,5 @@
 import { Button, Form, Input } from "antd";
-import React, { useCallback, useEffect, useState, useRef } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { addPost } from "../reducers/post";
@@ -26,8 +26,9 @@ const PostForm = () => {
   }, []);
 
   const onSubmit = useCallback(() => {
-    dispatch(addPost);
-  }, []);
+    dispatch(addPost({ text }));
+    setText("");
+  }, [text]);
 
   return (
     <Form
