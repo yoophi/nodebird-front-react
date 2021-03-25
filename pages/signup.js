@@ -1,10 +1,10 @@
 import { Button, Checkbox, Form, Input } from "antd";
 import React, { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import Router from "next/router";
 
 import AppLayout from "../components/AppLayout";
 import Head from "next/head";
+import Router from "next/router";
 import { signUpAction } from "../reducers/user";
 import useInput from "../hooks/useInput";
 

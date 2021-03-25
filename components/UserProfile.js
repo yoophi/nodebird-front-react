@@ -1,7 +1,7 @@
 import { Avatar, Button, Card } from "antd";
-
 import React, { useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
+
 import { logoutAction } from "../reducers/user";
 
 const UserProfile = () => {
@@ -10,6 +10,7 @@ const UserProfile = () => {
   const onLogout = useCallback(() => {
     dispatch(logoutAction);
   }, []);
+
   return (
     <Card
       actions={[

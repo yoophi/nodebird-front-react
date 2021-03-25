@@ -4,7 +4,7 @@ import Head from "next/head";
 import PropTypes from "prop-types";
 import wrapper from "../store/configureStore";
 
-function MyApp({ Component, pageProps }) {
+const MyApp = ({ Component, pageProps }) => {
   return (
     <>
       <Head>
@@ -13,7 +13,7 @@ function MyApp({ Component, pageProps }) {
       <Component {...pageProps} />
     </>
   );
-}
+};
 
 MyApp.propTypes = {
   Component: PropTypes.elementType.isRequired,

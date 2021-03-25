@@ -1,11 +1,11 @@
 import {
-  Overlay,
-  Header,
   CloseBtn,
-  SlickWrapper,
+  Global,
+  Header,
   ImgWrapper,
   Indicator,
-  Global,
+  Overlay,
+  SlickWrapper,
 } from "./styles";
 import React, { useState } from "react";
 
@@ -14,12 +14,13 @@ import Slick from "react-slick";
 
 const ImagesZoom = ({ images, onClose }) => {
   const [currentSlide, setCurrentSlide] = useState(0);
+
   return (
     <Overlay>
       <Global />
       <Header>
         <h1>Detail Images</h1>
-        <CloseBtn onclick={onClose} />
+        <CloseBtn onClick={onClose} />
       </Header>
       <SlickWrapper>
         <div>

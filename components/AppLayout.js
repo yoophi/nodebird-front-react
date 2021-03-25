@@ -1,10 +1,10 @@
-import { Button, Col, Input, Menu, Row } from "antd";
+import { Col, Input, Menu, Row } from "antd";
 
 import Link from "next/link";
+import LoginForm from "./LoginForm";
 import PropTypes from "prop-types";
 import React from "react";
 import UserProfile from "./UserProfile";
-import LoginForm from "./LoginForm";
 import { createGlobalStyle } from "styled-components";
 import { useSelector } from "react-redux";
 

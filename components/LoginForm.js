@@ -2,9 +2,9 @@ import { Button, Form, Input } from "antd";
 import React, { useCallback } from "react";
 
 import Link from "next/link";
-import useInput from "../hooks/useInput";
-import { useDispatch } from "react-redux";
 import { loginAction } from "../reducers/user";
+import { useDispatch } from "react-redux";
+import useInput from "../hooks/useInput";
 
 const LoginForm = () => {
   const [id, onChangeId] = useInput("");
