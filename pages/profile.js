@@ -8,34 +8,23 @@ import Router from "next/router";
 import { useSelector } from "react-redux";
 
 const Profile = () => {
-  const { isLoggedIn } = useSelector((state) => state.user);
-
+  const { me } = useSelector((state) => state.user);
   useEffect(() => {
-    if (!isLoggedIn) {
-      Router.replace("/");
+    if (!(me && me.id)) {
+      Router.push("/");
     }
-  }, [isLoggedIn]);
-
-  const followerList = [
-    { nickname: "User A" },
-    { nickname: "User B" },
-    { nickname: "User C" },
-  ];
-
-  const followingList = [
-    { nickname: "User 1" },
-    { nickname: "User 2" },
-    { nickname: "User 3" },
-  ];
-
+  }, [me && me.id]);
+  if (!me) {
+    return null;
+  }
   return (
     <AppLayout>
       <Head>
         <title>NodeBird</title>
       </Head>
       <NicknameEditForm />
-      <FollowList header="Following List" data={followingList} />
-      <FollowList header="Follower List" data={followerList} />
+      <FollowList header="Following List" data={me.Followings} />
+      <FollowList header="Follower List" data={me.Followers} />
     </AppLayout>
   );
 };

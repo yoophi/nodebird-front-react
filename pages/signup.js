@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import AppLayout from "../components/AppLayout";
 import Head from "next/head";
 import Router from "next/router";
-import { signUpAction } from "../reducers/user";
+import { SIGN_UP_REQUEST } from "../reducers/user";
 import useInput from "../hooks/useInput";
 
 const Signup = () => {
@@ -14,17 +14,17 @@ const Signup = () => {
   const [passwordError, setPasswordError] = useState(false);
   const [termError, setTermError] = useState(false);
 
-  const [id, onChangeId] = useInput("");
+  const [email, onChangeEmail] = useInput("");
   const [nick, onChangeNick] = useInput("");
   const [password, onChangePassword] = useInput("");
   const dispatch = useDispatch();
-  const { user } = useSelector((state) => state.user);
+  const { isSigningUp, me } = useSelector((state) => state.user);
 
   useEffect(() => {
-    if (user) {
+    if (me) {
       Router.push("/");
     }
-  }, [user && user.id]);
+  }, [me && me.id]);
 
   const onSubmit = useCallback(() => {
     if (password !== passwordCheck) {
@@ -33,14 +33,15 @@ const Signup = () => {
     if (!term) {
       return setTermError(true);
     }
-    dispatch(
-      signUpAction({
-        id,
+    return dispatch({
+      type: SIGN_UP_REQUEST,
+      data: {
+        email,
         password,
         nick,
-      })
-    );
-  }, [password, passwordCheck, term]);
+      },
+    });
+  }, [email, password, passwordCheck, term]);
 
   const onChangePasswordCheck = useCallback(
     (e) => {
@@ -64,7 +65,12 @@ const Signup = () => {
         <div>
           <label htmlFor="user-id">Username</label>
           <br />
-          <Input name="user-id" value={id} required onChange={onChangeId} />
+          <Input
+            name="user-email"
+            value={email}
+            required
+            onChange={onChangeEmail}
+          />
         </div>
         <div>
           <label htmlFor="user-nick">Nickname</label>
@@ -112,7 +118,7 @@ const Signup = () => {
           )}
         </div>
         <div style={{ marginTop: 10 }}>
-          <Button type="primary" htmlType="submit">
+          <Button type="primary" htmlType="submit" loading={isSigningUp}>
             Join
           </Button>
         </div>

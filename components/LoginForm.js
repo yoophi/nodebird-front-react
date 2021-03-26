@@ -1,45 +1,59 @@
 import { Button, Form, Input } from "antd";
 import React, { useCallback } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
+import { LOG_IN_REQUEST } from "../reducers/user";
 import Link from "next/link";
-import { loginAction } from "../reducers/user";
-import { useDispatch } from "react-redux";
+import styled from "styled-components";
 import useInput from "../hooks/useInput";
 
+const ButtonWrapper = styled.div`
+  margin-top: 10px;
+`;
+
+const FormWrapper = styled(Form)`
+  padding: 10px;
+`;
+
 const LoginForm = () => {
-  const [id, onChangeId] = useInput("");
-  const [password, onChangePassword] = useInput("");
   const dispatch = useDispatch();
+  const { logInLoading } = useSelector((state) => state.user);
+  const [email, onChangeEmail] = useInput("");
+  const [password, onChangePassword] = useInput("");
 
   const onSubmitForm = useCallback(() => {
-    dispatch(
-      loginAction({
-        id,
-        password,
-      })
-    );
-  }, [id, password]);
+    dispatch({
+      type: LOG_IN_REQUEST,
+      data: { email, password },
+    });
+  }, [email, password]);
 
   return (
-    <Form onFinish={onSubmitForm} style={{ padding: "10px" }}>
+    <FormWrapper onFinish={onSubmitForm}>
       <div>
-        <label htmlFor="user-id">Username</label>
+        <label htmlFor="user-email">Email</label>
         <br />
-        <Input name="user-id" value={id} onChange={onChangeId} required />
+        <Input
+          name="user-email"
+          type="email"
+          value={email}
+          onChange={onChangeEmail}
+          required
+        />
       </div>
       <div>
         <label htmlFor="user-password">Password</label>
         <br />
         <Input
           name="user-password"
+          type="password"
           value={password}
           onChange={onChangePassword}
-          type="password"
           required
         />
       </div>
-      <div style={{ marginTop: "10px" }}>
-        <Button type="primary" htmlType="submit" loading={false}>
+      <ButtonWrapper>
+        <Button type="primary" htmlType="submit" loading={logInLoading}>
           Login
         </Button>
         <Link href="/signup">
@@ -47,8 +61,8 @@ const LoginForm = () => {
             <Button>Join</Button>
           </a>
         </Link>
-      </div>
-    </Form>
+      </ButtonWrapper>
+    </FormWrapper>
   );
 };
 

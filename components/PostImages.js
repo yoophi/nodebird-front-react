@@ -18,7 +18,12 @@ const PostImages = ({ images }) => {
   if (images.length === 1) {
     return (
       <>
-        <img role="presentation" src={images[0].src} onClick={onZoom} />
+        <img
+          role="presentation"
+          src={images[0].src}
+          alt={images[0].src}
+          onClick={onZoom}
+        />
         {showImagesZoom && <ImagesZoom images={images} onClose={onClose} />}
       </>
     );
@@ -27,8 +32,20 @@ const PostImages = ({ images }) => {
     return (
       <>
         <div>
-          <img role="presentation" src={images[0].src} width="50%" onClick={onZoom} />
-          <img role="presentation" src={images[1].src} width="50%" onClick={onZoom} />
+          <img
+            role="presentation"
+            src={images[0].src}
+            alt={images[0].src}
+            width="50%"
+            onClick={onZoom}
+          />
+          <img
+            role="presentation"
+            src={images[1].src}
+            alt={images[1].src}
+            width="50%"
+            onClick={onZoom}
+          />
         </div>
         {showImagesZoom && <ImagesZoom images={images} onClose={onClose} />}
       </>
@@ -37,8 +54,15 @@ const PostImages = ({ images }) => {
   return (
     <>
       <div>
-        <img  src={images[0].src} width="50%" onClick={onZoom} />
+        <img
+          role="presentation"
+          src={images[0].src}
+          alt={images[0].src}
+          width="50%"
+          onClick={onZoom}
+        />
         <div
+          role="presentation"
           style={{
             display: "inline-block",
             width: "50%",
