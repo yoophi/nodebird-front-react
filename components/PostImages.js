@@ -58,7 +58,7 @@ const PostImages = ({ images }) => {
           role="presentation"
           src={images[0].src}
           alt={images[0].src}
-          width="50%"
+          style={{ width: "50%" }}
           onClick={onZoom}
         />
         <div
@@ -82,11 +82,7 @@ const PostImages = ({ images }) => {
 };
 
 PostImages.propTypes = {
-  images: PropTypes.arrayOf(
-    PropTypes.shape({
-      src: PropTypes.string,
-    })
-  ).isRequired,
+  images: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 export default PostImages;

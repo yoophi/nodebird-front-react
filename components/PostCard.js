@@ -6,66 +6,91 @@ import {
   MessageOutlined,
   RetweetOutlined,
 } from "@ant-design/icons";
+import {
+  LIKE_POST_REQUEST,
+  REMOVE_POST_REQUEST,
+  RETWEET_REQUEST,
+  UNLIKE_POST_REQUEST,
+} from "../reducers/post";
 import React, { useCallback, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import CommentForm from "./CommentForm";
 import FollowButton from "./FollowButton";
-import Link from "next/link";
 import PostCardContent from "./PostCardContent";
 import PostImages from "./PostImages";
 import PropTypes from "prop-types";
-import { REMOVE_POST_REQUEST } from "../reducers/post";
-import styled from "styled-components";
-
-const CardWrapper = styled.div`
-  margin-bottom: 20px;
-`;
 
 const PostCard = ({ post }) => {
   const dispatch = useDispatch();
   const { removePostLoading } = useSelector((state) => state.post);
   const [commentFormOpened, setCommentFormOpened] = useState(false);
-  const [liked, setLiked] = useState(false);
-  const { me } = useSelector((state) => state.user);
-  const id = me && me.id;
+  const id = useSelector((state) => state.user.me?.id);
 
+  const onLike = useCallback(() => {
+    if (!id) {
+      return alert("You must login to like post.");
+    }
+    return dispatch({
+      type: LIKE_POST_REQUEST,
+      data: post.id,
+    });
+  }, [id]);
+  const onUnlike = useCallback(() => {
+    if (!id) {
+      return alert("로그인이 필요합니다.");
+    }
+    return dispatch({
+      type: UNLIKE_POST_REQUEST,
+      data: post.id,
+    });
+  }, [id]);
   const onToggleComment = useCallback(() => {
     setCommentFormOpened((prev) => !prev);
   }, []);
 
-  const onToggleLike = useCallback(() => {
-    setLiked((prev) => !prev);
-  }, []);
-
   const onRemovePost = useCallback(() => {
-    dispatch({
+    if (!id) {
+      return alert("You must login to remove post.");
+    }
+    return dispatch({
       type: REMOVE_POST_REQUEST,
       data: post.id,
     });
-  }, []);
+  }, [id]);
 
+  const onRetweet = useCallback(() => {
+    if (!id) {
+      return alert("You must login to retweet post.");
+    }
+    return dispatch({
+      type: RETWEET_REQUEST,
+      data: post.id,
+    });
+  }, [id]);
+
+  const liked = post.Likers.find((v) => v.id === id);
   return (
-    <CardWrapper key={post.id}>
+    <div style={{ marginBottom: 20 }}>
       <Card
         cover={post.Images[0] && <PostImages images={post.Images} />}
         actions={[
-          <RetweetOutlined key="retweet" />,
+          <RetweetOutlined key="retweet" onClick={onRetweet} />,
           liked ? (
             <HeartTwoTone
               twoToneColor="#eb2f96"
               key="heart"
-              onClick={onToggleLike}
+              onClick={onUnlike}
             />
           ) : (
-            <HeartOutlined key="heart" onClick={onToggleLike} />
+            <HeartOutlined key="heart" onClick={onLike} />
           ),
-          <MessageOutlined key="message" onClick={onToggleComment} />,
+          <MessageOutlined key="comment" onClick={onToggleComment} />,
           <Popover
-            key="ellipsis"
+            key="more"
             content={
               <Button.Group>
-                {id && post.UserId === id ? (
+                {id && post.User.id === id ? (
                   <>
                     <Button>Update</Button>
                     <Button
@@ -85,16 +110,35 @@ const PostCard = ({ post }) => {
             <EllipsisOutlined />
           </Popover>,
         ]}
-        extra={<FollowButton post={post} />}
+        title={
+          post.RetweetId ? `Retweet by ${post.User.nickname}.` : null
+        }
+        extra={id && <FollowButton post={post} />}
       >
-        <Card.Meta
-          avatar={<Avatar>{post.User.nickname[0]}</Avatar>}
-          title={post.User.nickname}
-          description={<PostCardContent postData={post.content} />}
-        />
+        {post.RetweetId && post.Retweet ? (
+          <Card
+            cover={
+              post.Retweet.Images[0] && (
+                <PostImages images={post.Retweet.Images} />
+              )
+            }
+          >
+            <Card.Meta
+              avatar={<Avatar>{post.Retweet.User.nickname[0]}</Avatar>}
+              title={post.Retweet.User.nickname}
+              description={<PostCardContent postData={post.Retweet.content} />}
+            />
+          </Card>
+        ) : (
+          <Card.Meta
+            avatar={<Avatar>{post.User.nickname[0]}</Avatar>}
+            title={post.User.nickname}
+            description={<PostCardContent postData={post.content} />}
+          />
+        )}
       </Card>
       {commentFormOpened && (
-        <>
+        <div>
           <CommentForm post={post} />
           <List
             header={`${post.Comments ? post.Comments.length : 0} comments`}
@@ -104,24 +148,15 @@ const PostCard = ({ post }) => {
               <li>
                 <Comment
                   author={item.User.nickname}
-                  avatar={
-                    <Link
-                      href={{ pathname: "/user", query: { id: item.User.id } }}
-                      as={`/user/${item.User.id}`}
-                    >
-                      <a>
-                        <Avatar>{item.User.nickname[0]}</Avatar>
-                      </a>
-                    </Link>
-                  }
+                  avatar={<Avatar>{item.User.nickname[0]}</Avatar>}
                   content={item.content}
                 />
               </li>
             )}
           />
-        </>
+        </div>
       )}
-    </CardWrapper>
+    </div>
   );
 };
 
@@ -129,11 +164,13 @@ PostCard.propTypes = {
   post: PropTypes.shape({
     id: PropTypes.number,
     User: PropTypes.object,
-    UserId: PropTypes.number,
     content: PropTypes.string,
-    createdAt: PropTypes.object,
-    Comments: PropTypes.arrayOf(PropTypes.any),
-    Images: PropTypes.arrayOf(PropTypes.any),
+    createdAt: PropTypes.string,
+    Comments: PropTypes.arrayOf(PropTypes.object),
+    Images: PropTypes.arrayOf(PropTypes.object),
+    Likers: PropTypes.arrayOf(PropTypes.object),
+    RetweetId: PropTypes.number,
+    Retweet: PropTypes.objectOf(PropTypes.any),
   }).isRequired,
 };
 

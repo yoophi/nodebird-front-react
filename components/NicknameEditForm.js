@@ -24,13 +24,13 @@ const NicknameEditForm = () => {
         border: "1px solid #d9d9d9",
         padding: "20px",
       }}
-      onFinish={onSubmit}
     >
       <Input.Search
         value={nickname}
         onChange={onChangeNickname}
         addonBefore="Nickname"
         enterButton="Update"
+        onSearch={onSubmit}    
       />
     </Form>
   );

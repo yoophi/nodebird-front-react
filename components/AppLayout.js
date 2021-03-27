@@ -5,10 +5,16 @@ import LoginForm from "./LoginForm";
 import PropTypes from "prop-types";
 import React from "react";
 import UserProfile from "./UserProfile";
+import styled from "styled-components";
 import { useSelector } from "react-redux";
+
+const SearchInput = styled(Input.Search)`
+  vertical-align: middle;
+`;
 
 const AppLayout = ({ children }) => {
   const { me } = useSelector((state) => state.user);
+
   return (
     <div>
       <Menu mode="horizontal">
@@ -22,8 +28,13 @@ const AppLayout = ({ children }) => {
             <a>Profile</a>
           </Link>
         </Menu.Item>
-        <Menu.Item key="mail">
-          <Input.Search enterButton style={{ verticalAlign: "middle" }} />
+        <Menu.Item>
+          <SearchInput enterButton />
+        </Menu.Item>
+        <Menu.Item>
+          <Link href="/signup">
+            <a>Join</a>
+          </Link>
         </Menu.Item>
       </Menu>
       <Row gutter={8}>
